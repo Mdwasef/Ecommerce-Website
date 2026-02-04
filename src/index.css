@@ -1,0 +1,9 @@
+@import 'tailwindcss';
+
+body {
+  background-color: #f3f4f6; /* Tailwind gray-50 */
+}
+
+#category_homebar::-webkit-scrollbar{
+display: none;
+}
