@@ -1,14 +1,19 @@
 import { useContext, useState } from "react";
 import Category_HomeBar from "../Category_Handling/Category_HomeBar";
 import products from "../Data/Products_Array";
-
+import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import UserContext from "../Context/Context";
 
+import { useNavigate } from "react-router-dom";
 
 function Products() {
-    
+  
+  let navigate=useNavigate()
+
     let {category}=useParams()
+
+  // let {product_name}=useParams()
 
     let filterProducts= category?products.filter((data,index)=>data.slug===category):products;
 
@@ -75,7 +80,12 @@ function Products() {
 
                   <div className="flex justify-left px-3 gap-3">
 
-                  <button className="bg-gray-700 w-[40%] mt-3 py-2 rounded-lg hover:bg-red-300 text-white transition">Buy Now</button>
+                  <button className="bg-gray-700 w-[40%] mt-3 py-2 rounded-lg hover:bg-red-300 text-white transition"
+                  onClick={()=>navigate(`/product_details/${data.product_id}`)}
+                  >
+                  Buy Now  
+                  
+                  </button>
 
                       <button className="mt-3 w-[40%] bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition" onClick={()=>HandleAddToCart(data)}>
                 Add to Cart

@@ -1,5 +1,24 @@
 @import 'tailwindcss';
 
+
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Optional: Set a consistent background color for the whole app */
+body {
+  background-color: #f3f4f6; /* Tailwind's gray-50 */
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background-color: #f3f4f6; /* Tailwind gray-50 */
 }
