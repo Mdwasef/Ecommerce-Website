@@ -1,57 +1,31 @@
 import { Link } from "react-router-dom";
 
+// import { Link } from "react-router-dom";
+
 function Navbar() {
   return (
-    // Added 'sticky' and 'backdrop-blur' for a premium modern feel
-    <nav className="sticky top-0 z-50 border-b border-gray-100 bg-white/80 backdrop-blur-md">
+    // We use the SAME color as your HomePage to make the gap invisible
+    <nav className="sticky top-0 z-50 border-b border-white/5 bg-[#0f172a]/90 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
 
-        {/* Logo - Increased size and added branding color */}
-        <Link to="/home" className="hover:opacity-80 transition-opacity">
-          <h1 className="text-xl font-black text-gray-900 tracking-tight">
-            MY<span className="text-blue-600">SHOP</span>
+        <Link to="/home">
+          <h1 className="text-xl font-black text-white tracking-tight">
+            MY<span className="text-blue-400">SHOP</span>
           </h1>
         </Link>
 
-        {/* Links - Improved spacing and interaction states */}
-        <div className="flex items-center gap-8 text-sm font-semibold text-gray-600">
+        <div className="flex items-center gap-8 text-sm font-semibold text-slate-300">
+          <Link to="/home" className="hover:text-blue-400 transition-colors">Home</Link>
+          <Link to="/products" className="hover:text-blue-400 transition-colors">Products</Link>
+          <Link to="/contact" className="hover:text-blue-400 transition-colors">Contact</Link>
+          <Link to="/cart" className="hover:text-blue-400 transition-colors">Cart</Link>
 
-          <Link
-            to="/home"
-            className="hover:text-blue-600 transition-colors duration-200 focus:outline-none focus:text-blue-600"
-          >
-            Home
-          </Link>
-
-          <Link
-            to="/products"
-            className="hover:text-blue-600 transition-colors duration-200 focus:outline-none focus:text-blue-600"
-          >
-            Products
-          </Link>
-
-          <Link
-            to="/contact"
-            className="hover:text-blue-600 transition-colors duration-200 focus:outline-none focus:text-blue-600"
-          >
-            Contact
-          </Link>
-
-          <Link
-            to="/cart"
-            className="hover:text-blue-600 transition-colors duration-200 focus:outline-none focus:text-blue-600"
-          >
-            Cart
-          </Link>
-
-          {/* Dashboard - Styled as a primary action button */}
           <Link
             to="/dashboard"
-            className="bg-gray-900 text-white px-5 py-2 rounded-full hover:bg-black hover:shadow-lg active:scale-95 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+            className="bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-blue-400 transition-all font-bold"
           >
             Dashboard
           </Link>
-
         </div>
       </div>
     </nav>

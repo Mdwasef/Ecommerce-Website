@@ -1,4 +1,4 @@
-import { useState, useContext } from "react"
+import { useState, useContext } from "react";
 import UserContext from "../Context/Context";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -7,134 +7,195 @@ function SignUp() {
   const navigate = useNavigate();
 
   const [signup, setSignUp] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    gender: '',
-    password: '',
-    repassword: '',
-    age: ''
+    name: "",
+    email: "",
+    phone: "",
+    gender: "",
+    password: "",
+    repassword: "",
+    age: ""
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRePassword, setShowRePassword] = useState(false);
+
+  // Handle Input Change
   function HandleValue(e) {
     const { name, value } = e.target;
-    setSignUp({
-      ...signup,
-      [name]: value
-    });
+    setSignUp({ ...signup, [name]: value });
   }
 
+  // Handle Submit
   function HandleForm(e) {
     e.preventDefault();
-    if (signup.password !== signup.repassword) {
-      alert('Passwords do not match');
+
+    if (signup.phone.length !== 10) {
+      alert("Phone number must be 10 digits");
       return;
     }
+
+    if (signup.password.length < 6) {
+      alert("Password must be at least 6 characters");
+      return;
+    }
+
+    if (signup.password !== signup.repassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
     setUser(signup);
-    navigate('/home');
+    navigate("/home");
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      {/* FORM CARD */}
-      <div className="max-w-md w-full bg-white shadow-2xl rounded-3xl p-8 border border-gray-100">
-        
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="max-w-md w-full bg-white shadow-xl rounded-3xl p-8">
+
         {/* HEADER */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl text-white text-2xl font-black mb-4 shadow-lg shadow-blue-100">
+          <div className="w-16 h-16 mx-auto bg-blue-600 rounded-2xl 
+                          text-white text-2xl font-bold flex items-center 
+                          justify-center mb-3">
             M
           </div>
-          <h2 className="text-3xl font-black text-gray-900 tracking-tight">Create Account</h2>
-          <p className="text-gray-500 text-sm mt-2 font-medium">Join MyShop for the best snacks & electronics</p>
+
+          <h2 className="text-3xl font-bold">Create Account</h2>
+          <p className="text-gray-500">Join MyShop today</p>
         </div>
 
         <form className="space-y-5" onSubmit={HandleForm}>
-          
+
           {/* NAME */}
           <div>
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Full Name</label>
-            <input 
-              type="text" required name="name" placeholder=" "
-              className="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
-              value={signup.name} onChange={HandleValue}
+            <label className="text-sm text-gray-600">Full Name</label>
+            <input
+              type="text"
+              name="name"
+              required
+              className="w-full mt-1 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
+              value={signup.name}
+              onChange={HandleValue}
             />
           </div>
 
           {/* EMAIL */}
           <div>
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Email Address</label>
-            <input 
-              type="email" required name="email" placeholder="example@gmail.com"
-              className="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
-              value={signup.email} onChange={HandleValue}
+            <label className="text-sm text-gray-600">Email</label>
+            <input
+              type="email"
+              name="email"
+              required
+              className="w-full mt-1 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
+              value={signup.email}
+              onChange={HandleValue}
             />
           </div>
 
-          {/* TWO COLUMN ROW: PHONE & AGE */}
+          {/* PHONE + AGE */}
           <div className="grid grid-cols-2 gap-4">
+
             <div>
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Phone</label>
-              <input 
-                type="number" required name="phone" placeholder=""
-                className="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
-                value={signup.phone} onChange={HandleValue}
+              <label className="text-sm text-gray-600">Phone</label>
+              <input
+                type="tel"
+                name="phone"
+                maxLength="10"
+                pattern="[0-9]{10}"
+                required
+                className="w-full mt-1 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
+                value={signup.phone}
+                onChange={HandleValue}
               />
             </div>
+
             <div>
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Age</label>
-              <input 
-                type="number" required name="age" placeholder=""
-                className="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
-                value={signup.age} onChange={HandleValue}
+              <label className="text-sm text-gray-600">Age</label>
+              <input
+                type="number"
+                name="age"
+                required
+                className="w-full mt-1 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
+                value={signup.age}
+                onChange={HandleValue}
               />
             </div>
+
           </div>
 
-          {/* GENDER SELECT (Better than text input) */}
+          {/* GENDER */}
           <div>
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Gender</label>
-            <select 
-              name="gender" required
-              className="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all bg-white"
-              value={signup.gender} onChange={HandleValue}
+            <label className="text-sm text-gray-600">Gender</label>
+            <select
+              name="gender"
+              required
+              className="w-full mt-1 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
+              value={signup.gender}
+              onChange={HandleValue}
             >
               <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
             </select>
           </div>
 
-          {/* PASSWORDS */}
-          <div className="space-y-4">
-            <div>
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Password</label>
-              <input 
-                type="password" required name="password" placeholder="••••••••"
-                className="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
-                value={signup.password} onChange={HandleValue}
-              />
-            </div>
-            <div>
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Confirm Password</label>
-              <input 
-                type="password" required name="repassword" placeholder="••••••••"
-                className="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
-                value={signup.repassword} onChange={HandleValue}
-              />
-            </div>
+          {/* PASSWORD */}
+          <div className="relative">
+            <label className="text-sm text-gray-600">Password</label>
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              required
+              className="w-full mt-1 px-4 py-3 pr-12 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
+              value={signup.password}
+              onChange={HandleValue}
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-10"
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </button>
           </div>
 
-          {/* SUBMIT BUTTON */}
-          <button 
+          {/* CONFIRM PASSWORD */}
+          <div className="relative">
+            <label className="text-sm text-gray-600">Confirm Password</label>
+            <input
+              type={showRePassword ? "text" : "password"}
+              name="repassword"
+              required
+              className="w-full mt-1 px-4 py-3 pr-12 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
+              value={signup.repassword}
+              onChange={HandleValue}
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowRePassword(!showRePassword)}
+              className="absolute right-4 top-10"
+            >
+              {showRePassword ? "🙈" : "👁️"}
+            </button>
+          </div>
+
+          {/* SUBMIT */}
+          <button
             type="submit"
-            className="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl hover:bg-blue-700 active:scale-95 transition-all shadow-lg shadow-blue-100 mt-4"
+            className="w-full bg-blue-600 text-white py-3 rounded-xl 
+                       font-semibold hover:bg-blue-700 transition"
           >
-            Create My Account
+            Create Account
           </button>
 
-          <p className="text-center text-sm text-gray-500 font-medium">
-            Already have an account? <Link to="/home" className="text-blue-600 font-bold hover:underline">Log In</Link>
+          <p className="text-center text-sm text-gray-500">
+            Already have an account?{" "}
+            <Link to="/home" className="text-blue-600 font-semibold">
+              Login
+            </Link>
           </p>
 
         </form>

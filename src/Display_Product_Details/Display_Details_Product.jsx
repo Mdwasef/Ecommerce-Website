@@ -1,114 +1,118 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import products from "../Data/Products_Array";
-
 import UserContext from "../Context/Context";
 
 function Display_Details_Product() {
-
   const { product_name } = useParams();
+  let navigate = useNavigate();
+  let { cart = [], setCart } = useContext(UserContext);
 
-  let navigate=useNavigate();
-
-  let {cart=[],setCart}=useContext(UserContext);
-  
-  // Note: Using find on product_id as per your logic
   const product = products.find((data) => data.product_id === product_name);
 
-function HandleAdd(product){
-let updated=[...cart,product];
-setCart(updated);
-navigate('/cart');
-}
+  function HandleAdd(product) {
+    let updated = [...cart, product];
+    setCart(updated);
+    navigate('/cart');
+  }
 
   if (!product) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center space-y-4">
-        <h1 className="text-3xl font-bold text-gray-800">Product not found</h1>
-        <Link to="/" className="text-blue-600 hover:underline">Return to Shop</Link>
+      <div className="min-h-screen bg-[#02040a] flex flex-col items-center justify-center space-y-6">
+        <h1 className="text-3xl font-black text-white">Product not found</h1>
+        <Link to="/products" className="bg-cyan-600 text-[#02040a] px-8 py-3 rounded-xl font-black uppercase tracking-widest text-sm hover:bg-cyan-400 transition-all">
+          Return to Shop
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    /* MAIN WRAPPER: Matches global deep theme */
+    <div className="bg-[#02040a] min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         
-        {/* BREADCRUMB - Helpful for UX */}
-        <nav className="flex mb-8 text-sm text-gray-500 uppercase tracking-wider">
-          <Link to="/home" className="hover:text-black">Home</Link>
-          <span className="mx-2">/</span>
-          <span className="text-gray-800 font-semibold">{product.category}</span>
+        {/* BREADCRUMB: Silver/Slate text */}
+        <nav className="flex mb-8 text-[10px] text-slate-500 font-black uppercase tracking-[0.2em]">
+          <Link to="/home" className="hover:text-cyan-400 transition-colors">Home</Link>
+          <span className="mx-3 text-slate-700">/</span>
+          <span className="text-slate-300">{product.category}</span>
         </nav>
 
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+        {/* PRODUCT CARD: Deep Navy Glass Container */}
+        <div className="bg-[#0b1120] rounded-[3rem] overflow-hidden border border-white/5 shadow-2xl">
           <div className="flex flex-col md:flex-row">
             
-            {/* LEFT COLUMN: IMAGE */}
-            <div className="w-full md:w-1/2 bg-white p-8 flex items-center justify-center border-b md:border-b-0 md:border-r border-gray-100">
+            {/* LEFT COLUMN: IMAGE AREA */}
+            <div className="w-full md:w-1/2 bg-[#020617]/50 p-10 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/5 relative">
+              {/* Radial glow behind the image */}
+              <div className="absolute inset-0 bg-cyan-500/5 blur-[120px] rounded-full"></div>
+              
               <div className="relative group">
                 <img
                   src={product.img}
                   alt={product.name}
-                  className="w-full h-auto max-h-112.5 object-contain transform group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-auto max-h-[450px] object-contain transform group-hover:scale-105 transition-transform duration-700 relative z-10 drop-shadow-2xl"
                 />
-                {/* Sale Tag Badge */}
-                <span className="absolute top-0 left-0 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">
+                <span className="absolute -top-4 -left-4 bg-cyan-600 text-[#02040a] text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest z-20">
                   New Arrival
                 </span>
               </div>
             </div>
 
             {/* RIGHT COLUMN: DETAILS */}
-            <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+            <div className="w-full md:w-1/2 p-10 md:p-16 flex flex-col justify-center">
               
-              <div className="mb-4">
-                <span className="text-blue-600 font-bold text-sm uppercase tracking-widest">
+              <div className="mb-6">
+                <span className="text-cyan-500 font-black text-xs uppercase tracking-[0.3em]">
                   {product.category}
                 </span>
-                <h1 className="text-4xl font-extrabold text-gray-900 mt-2 leading-tight">
+                <h1 className="text-4xl md:text-5xl font-black text-white mt-3 leading-tight tracking-tighter">
                   {product.name}
                 </h1>
               </div>
 
-              {/* STAR RATING (Static for UI look) */}
-              <div className="flex items-center mb-6">
-                <div className="flex text-yellow-400">
+              {/* STAR RATING */}
+              <div className="flex items-center mb-8">
+                <div className="flex text-cyan-400 text-lg">
                   {[...Array(5)].map((_, i) => (
                     <span key={i}>★</span>
                   ))}
                 </div>
-                <span className="text-gray-400 text-sm ml-2">(4.8 / 5 Customer Reviews)</span>
+                <span className="text-slate-500 text-xs font-bold ml-4 uppercase tracking-widest">(4.8 / 5 Reviews)</span>
               </div>
 
-              <p className="text-gray-600 text-lg leading-relaxed mb-8">
+              <p className="text-slate-400 text-lg leading-relaxed mb-10 font-medium">
                 {product.description}
               </p>
 
-              <div className="flex items-center mb-10">
-                <span className="text-4xl font-black text-gray-900">₹{product.price}</span>
-                <span className="ml-4 text-gray-400 line-through text-xl">₹{product.price + 200}</span>
+              <div className="flex items-center mb-12">
+                <span className="text-5xl font-black text-white">₹{product.price}</span>
+                <span className="ml-6 text-slate-600 line-through text-2xl font-bold">₹{product.price + 200}</span>
               </div>
 
-              {/* ACTION BUTTONS */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button className="flex-1 bg-blue-600 text-white text-lg font-bold py-4 rounded-xl hover:bg-blue-700 active:scale-95 transition-all shadow-lg shadow-blue-200">
+              {/* ACTION BUTTONS: Flat/High-Contrast */}
+              <div className="flex flex-col sm:flex-row gap-5">
+                <button className="flex-1 bg-cyan-600 text-[#02040a] text-sm font-black py-5 rounded-2xl hover:bg-cyan-400 active:scale-95 transition-all uppercase tracking-widest">
                   Buy Now
                 </button>
-                <button className="flex-1 bg-white text-gray-900 border-2 border-gray-900 text-lg font-bold py-4 rounded-xl hover:bg-gray-900 hover:text-white active:scale-95 transition-all" 
-                onClick={()=>HandleAdd(product)}
+                <button 
+                  className="flex-1 bg-white/5 text-white border border-white/10 text-sm font-black py-5 rounded-2xl hover:bg-white/10 active:scale-95 transition-all uppercase tracking-widest" 
+                  onClick={() => HandleAdd(product)}
                 >
                   Add to Cart
                 </button>
               </div>
 
               {/* TRUST BADGE FOOTER */}
-              <div className="mt-10 pt-6 border-t border-gray-100 grid grid-cols-2 gap-4 text-xs text-gray-500 font-medium">
-                <div className="flex items-center gap-2">
-                  ✅ Fast Delivery in West Bengal
+              <div className="mt-12 pt-8 border-t border-white/5 grid grid-cols-1 sm:grid-cols-2 gap-6 text-[10px] text-slate-500 font-black uppercase tracking-[0.15em]">
+                <div className="flex items-center gap-3">
+                  <span className="text-cyan-500 text-lg">⚡</span>
+                  Express Delivery
                 </div>
-                <div className="flex items-center gap-2">
-                  🛡️ 7 Days Return Policy
+                <div className="flex items-center gap-3">
+                  <span className="text-cyan-500 text-lg">🛡️</span>
+                  7 Days Returns
                 </div>
               </div>
 
